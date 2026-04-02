@@ -3,6 +3,7 @@ import './App.css';
 
 const popularNames = ['카리나', '카리나', '카리나', '카리나', '카리나'];
 const imgHeroDownIndicator = "https://www.figma.com/api/mcp/asset/09156f0e-d1fb-4ba2-afae-eaac104386f5";
+const imgCatchstyle = "https://www.figma.com/api/mcp/asset/1ff63f56-8a89-4a93-93a7-d5a47438afb3";
 
 function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -11,9 +12,11 @@ function App() {
   return (
     <div className="app-root">
       <main className="hero-section" data-node-id="228:256">
-        <div className="brand" data-node-id="228:257">Catchstyle</div>
+        <img alt="Catchstyle" className="brand" data-node-id="228:243" src={imgCatchstyle} />
         <h1 className="headline" data-node-id="228:258">
-          그때 그 착장, 연예인이 입은 옷 정보 찾느라 헤맨 적 있나요?
+          <span>그때 그 착장,</span>
+          <span className="headline-break"> 연예인이 입은 옷 정보</span>
+          <span className="headline-break"> 찾느라 헤맨 적 있나요?</span>
         </h1>
         <div className="hero-bullet" aria-hidden="true">
           •
@@ -29,8 +32,10 @@ function App() {
       </main>
 
       <section className="query-section">
-        <h2>어떤 연예인의 착장 정보가</h2>
-        <h2>가장 궁금하신가요?</h2>
+        <h2 className="query-title">
+          어떤 연예인의 착장 정보가
+          <span className="query-title-break"> 가장 궁금하신가요?</span>
+        </h2>
         <p className="subtitle">서비스에 정보를 먼저 등록해 드릴게요</p>
 
         <form className="search-form" onSubmit={(e) => e.preventDefault()}>

@@ -39,10 +39,16 @@ body {
 }
 
 .brand {
-  font-weight: 500;
-  font-size: 16px;
-  letter-spacing: 0.2em;
-  color: rgba(255, 255, 255, 0.82);
+  width: 103.076px;
+  height: 19.416px;
+  display: block;
+  margin-inline: auto;
+}
+
+@media (max-width: 960px) {
+  .hero-section .brand {
+    max-width: 96px;
+  }
 }
 
 .headline {
@@ -51,6 +57,23 @@ body {
   line-height: 44px;
   margin: 0;
   letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+
+.headline-break {
+  display: inline;
+  letter-spacing: normal;
+}
+
+@media (max-width: 720px) {
+  .headline {
+    white-space: normal;
+    text-align: center;
+  }
+
+  .headline-break {
+    display: block;
+  }
 }
 
 .hero-bullet {
@@ -100,6 +123,26 @@ body {
   font-size: 28px;
   font-weight: 700;
   line-height: 36px;
+}
+
+.query-title {
+  white-space: nowrap;
+}
+
+.query-title-break {
+  display: inline;
+}
+
+@media (max-width: 720px) {
+  .query-title {
+    white-space: normal;
+    display: block;
+    text-align: center;
+  }
+
+  .query-title-break {
+    display: block;
+  }
 }
 
 .subtitle {
@@ -368,7 +411,7 @@ body {
 
 .modal-action,
 .thanks-button {
-  border: none;
+  border: 1px solid #101214;
   border-radius: 12px;
   padding: 12px 14px;
   font-weight: 700;
@@ -383,7 +426,7 @@ body {
 
 .thanks-button.outline {
   background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  border: 1px solid #101214;
   color: #fff;
 }
 
@@ -433,6 +476,7 @@ body {
   font-size: 14px;
   line-height: 22px;
   margin-bottom: 12px;
+  color: #101214;
 }
 
 .modal-note {
