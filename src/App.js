@@ -2,6 +2,7 @@ import { useState } from 'react';
 import './App.css';
 
 const popularNames = ['카리나', '카리나', '카리나', '카리나', '카리나'];
+const imgHeroDownIndicator = "https://www.figma.com/api/mcp/asset/09156f0e-d1fb-4ba2-afae-eaac104386f5";
 
 function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -22,14 +23,14 @@ function App() {
           <p>날짜별 셀럽 착장 정보부터, 구매까지 한 곳에 모았습니다</p>
           <p>가장 정확한 착장 아카이브 서비스가 곧 시작됩니다</p>
         </div>
-        <div className="hero-down-indicator" aria-hidden="true">
-          <span />
-          <span />
+        <div className="hero-down-indicator" aria-hidden="true" data-node-id="228:259">
+          <img alt="" src={imgHeroDownIndicator} />
         </div>
       </main>
 
       <section className="query-section">
-        <h2>어떤 연예인의 착장 정보가 가장 궁금하신가요?</h2>
+        <h2>어떤 연예인의 착장 정보가</h2>
+        <h2>가장 궁금하신가요?</h2>
         <p className="subtitle">서비스에 정보를 먼저 등록해 드릴게요</p>
 
         <form className="search-form" onSubmit={(e) => e.preventDefault()}>
