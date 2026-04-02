@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import './App.css';
 
-const popularNames = ['카라나', '카라나', '카라나', '카라나', '카라나'];
+const popularNames = ['카리나', '카리나', '카리나', '카리나', '카리나'];
 
 function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
