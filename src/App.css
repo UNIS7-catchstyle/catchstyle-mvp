@@ -45,9 +45,9 @@ body {
   margin-inline: auto;
 }
 
-@media (max-width: 960px) {
+@media (max-width: 970px) {
   .hero-section .brand {
-    max-width: 96px;
+    max-width: 105px;
   }
 }
 
