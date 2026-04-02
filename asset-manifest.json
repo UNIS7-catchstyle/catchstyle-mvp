@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/catchstyle-mvp/static/css/main.afe1b804.css",
+    "main.js": "/catchstyle-mvp/static/js/main.f2bc6846.js",
+    "static/js/453.77d1c5b9.chunk.js": "/catchstyle-mvp/static/js/453.77d1c5b9.chunk.js",
+    "index.html": "/catchstyle-mvp/index.html",
+    "main.afe1b804.css.map": "/catchstyle-mvp/static/css/main.afe1b804.css.map",
+    "main.f2bc6846.js.map": "/catchstyle-mvp/static/js/main.f2bc6846.js.map",
+    "453.77d1c5b9.chunk.js.map": "/catchstyle-mvp/static/js/453.77d1c5b9.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.afe1b804.css",
+    "static/js/main.f2bc6846.js"
+  ]
+}
