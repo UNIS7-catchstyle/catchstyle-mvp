@@ -268,14 +268,14 @@ function App() {
     <div
       className="app-root"
       ref={appRootRef}
-      style={
-        isMobileView && backgroundImage
-          ? {
-              backgroundImage: `linear-gradient(180deg, rgba(9, 11, 17, 0.85) 0%, rgba(2, 4, 8, 0.85) 45%, rgba(5, 8, 13, 0.85) 100%), url(${backgroundImage})`,
-            }
-          : undefined
-      }
     >
+      {isMobileView && backgroundImage && (
+        <div
+          className="mobile-background-layer"
+          style={{ backgroundImage: `url(${backgroundImage})` }}
+          aria-hidden="true"
+        />
+      )}
       <main
         className="hero-section snap-section"
         data-node-id="228:256"
