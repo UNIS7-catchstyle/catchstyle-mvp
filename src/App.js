@@ -142,8 +142,7 @@ function App() {
         setIsModalOpen(true);
       }
     } catch (error) {
-      setErrorMessage(error.message);
-      setIsModalOpen(true);
+      window.alert(error.message);
     } finally {
       setIsLoading(false);
     }
@@ -174,7 +173,7 @@ function App() {
       setIsModalOpen(false);
       setIsThanksOpen(true);
     } catch (error) {
-      setErrorMessage(error.message);
+      window.alert(error.message);
     } finally {
       setIsLoading(false);
     }
