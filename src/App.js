@@ -6,11 +6,38 @@ const imgHeroDownIndicator = "https://www.figma.com/api/mcp/asset/09156f0e-d1fb-
 const imgCatchstyle = "https://www.figma.com/api/mcp/asset/1ff63f56-8a89-4a93-93a7-d5a47438afb3";
 
 const MOBILE_MEDIA_QUERY = '(max-width: 720px)';
-const MOBILE_BG_SESSION_KEY = 'catchstyle-mobile-bg-index-session';
 const celebrityImages = (() => {
   const imageContext = require.context('./assets/celebrities', false, /\.(png|jpe?g|webp)$/i);
   return imageContext.keys().map((key) => imageContext(key));
 })();
+const MOBILE_BG_PREVIOUS_KEY = `catchstyle-mobile-bg-previous-${celebrityImages.length}`;
+
+const getRandomIndex = (max) => {
+  if (max <= 0) {
+    return 0;
+  }
+
+  if (typeof crypto !== 'undefined' && crypto.getRandomValues) {
+    const values = new Uint32Array(1);
+    crypto.getRandomValues(values);
+    return values[0] % max;
+  }
+
+  return Math.floor(Math.random() * max);
+};
+
+const getNextRandomIndex = (max, previousIndex) => {
+  if (max <= 1) {
+    return 0;
+  }
+
+  const nextIndex = getRandomIndex(max);
+  if (nextIndex !== previousIndex) {
+    return nextIndex;
+  }
+
+  return (nextIndex + 1 + getRandomIndex(max - 1)) % max;
+};
 
 // 모바일 감지 함수
 const isMobileDevice = () => {
@@ -104,13 +131,11 @@ function App() {
         return;
       }
 
-      const storedIndex = Number(sessionStorage.getItem(MOBILE_BG_SESSION_KEY));
-      const hasValidStoredIndex = Number.isInteger(storedIndex) && storedIndex >= 0 && storedIndex < celebrityImages.length;
-      const targetIndex = hasValidStoredIndex ? storedIndex : Math.floor(Math.random() * celebrityImages.length);
+      const previousIndex = Number(localStorage.getItem(MOBILE_BG_PREVIOUS_KEY));
+      const hasValidPreviousIndex = Number.isInteger(previousIndex) && previousIndex >= 0 && previousIndex < celebrityImages.length;
+      const targetIndex = getNextRandomIndex(celebrityImages.length, hasValidPreviousIndex ? previousIndex : -1);
 
-      if (!hasValidStoredIndex) {
-        sessionStorage.setItem(MOBILE_BG_SESSION_KEY, String(targetIndex));
-      }
+      localStorage.setItem(MOBILE_BG_PREVIOUS_KEY, String(targetIndex));
 
       setBackgroundImage(celebrityImages[targetIndex]);
       setIsHeroBackgroundVisible(true);
