@@ -426,7 +426,9 @@ function App() {
               ×
             </button>
             <h3 id="modal-title" className="modal-title">
-              신청 완료! 서비스가 출시되면 가장 먼저 알려드릴게요.
+              신청 완료! 서비스가 출시되면
+              <br />
+              가장 먼저 알려드릴게요.
             </h3>
             <input
               className="modal-input"
