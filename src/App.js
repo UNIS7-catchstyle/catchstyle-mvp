@@ -5,33 +5,16 @@ const popularNames = ['카리나', '카리나', '카리나', '카리나', '카�
 const imgHeroDownIndicator = "https://www.figma.com/api/mcp/asset/09156f0e-d1fb-4ba2-afae-eaac104386f5";
 const imgCatchstyle = "https://www.figma.com/api/mcp/asset/1ff63f56-8a89-4a93-93a7-d5a47438afb3";
 
-// 연예인 사진 배열
-const celebrityImages = [
-  require('./assets/celebrities/image 6740.png'),
-  require('./assets/celebrities/image 6741.png'),
-  require('./assets/celebrities/image 6742.png'),
-  require('./assets/celebrities/image 6743.png'),
-  require('./assets/celebrities/IMG_0588 2.png'),
-  require('./assets/celebrities/IMG_0589 2.png'),
-  require('./assets/celebrities/IMG_0590 2.png'),
-  require('./assets/celebrities/IMG_0612 2.png'),
-  require('./assets/celebrities/IMG_0613 2.png'),
-  require('./assets/celebrities/IMG_7383 2.png'),
-  require('./assets/celebrities/IMG_7384 3.png'),
-  require('./assets/celebrities/KakaoTalk_Photo_2026-03-30-15-10-37 2.png'),
-  require('./assets/celebrities/weverse_20260329222131_2914655965 2.png'),
-  require('./assets/celebrities/weverse_20260330135959_1742692651 2.png'),
-  require('./assets/celebrities/weverse_20260330143523_1363134248 2.png'),
-];
-
-// 랜덤 사진 선택 함수
-const getRandomCelebrityImage = () => {
-  return celebrityImages[Math.floor(Math.random() * celebrityImages.length)];
-};
+const MOBILE_MEDIA_QUERY = '(max-width: 720px)';
+const MOBILE_BG_SESSION_KEY = 'catchstyle-mobile-bg-index-session';
+const celebrityImages = (() => {
+  const imageContext = require.context('./assets/celebrities', false, /\.(png|jpe?g|webp)$/i);
+  return imageContext.keys().map((key) => imageContext(key));
+})();
 
 // 모바일 감지 함수
 const isMobileDevice = () => {
-  return window.matchMedia('(max-width: 720px)').matches;
+  return window.matchMedia(MOBILE_MEDIA_QUERY).matches;
 };
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'https://catchstyle-mvp-be.onrender.com';
@@ -69,6 +52,7 @@ function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isThanksOpen, setIsThanksOpen] = useState(false);
   const [backgroundImage, setBackgroundImage] = useState('');
+  const [isMobileView, setIsMobileView] = useState(false);
 
   const apiFetch = async (url, options = {}) => {
     if (!API_BASE_URL) {
@@ -107,10 +91,34 @@ function App() {
   };
 
   useEffect(() => {
-    // 모바일에서만 랜덤 이미지 설정
-    if (isMobileDevice()) {
-      setBackgroundImage(getRandomCelebrityImage());
-    }
+    const mediaQuery = window.matchMedia(MOBILE_MEDIA_QUERY);
+
+    const setRandomBackgroundForMobile = () => {
+      const mobile = mediaQuery.matches;
+      setIsMobileView(mobile);
+
+      if (!mobile || celebrityImages.length === 0) {
+        setBackgroundImage('');
+        return;
+      }
+
+      const storedIndex = Number(sessionStorage.getItem(MOBILE_BG_SESSION_KEY));
+      const hasValidStoredIndex = Number.isInteger(storedIndex) && storedIndex >= 0 && storedIndex < celebrityImages.length;
+      const targetIndex = hasValidStoredIndex ? storedIndex : Math.floor(Math.random() * celebrityImages.length);
+
+      if (!hasValidStoredIndex) {
+        sessionStorage.setItem(MOBILE_BG_SESSION_KEY, String(targetIndex));
+      }
+
+      setBackgroundImage(celebrityImages[targetIndex]);
+    };
+
+    setRandomBackgroundForMobile();
+    mediaQuery.addEventListener('change', setRandomBackgroundForMobile);
+
+    return () => {
+      mediaQuery.removeEventListener('change', setRandomBackgroundForMobile);
+    };
   }, []);
 
   useEffect(() => {
@@ -257,11 +265,20 @@ function App() {
   };
 
   return (
-    <div className="app-root" ref={appRootRef}>
+    <div
+      className="app-root"
+      ref={appRootRef}
+      style={
+        isMobileView && backgroundImage
+          ? {
+              backgroundImage: `linear-gradient(180deg, rgba(9, 11, 17, 0.85) 0%, rgba(2, 4, 8, 0.85) 45%, rgba(5, 8, 13, 0.85) 100%), url(${backgroundImage})`,
+            }
+          : undefined
+      }
+    >
       <main
         className="hero-section snap-section"
         data-node-id="228:256"
-        style={backgroundImage ? { backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center' } : undefined}
       >
         <img alt="Catchstyle" className="brand" data-node-id="228:243" src={imgCatchstyle} />
         <h1 className="headline" data-node-id="228:258">
