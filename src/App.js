@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './App.css';
 
 const popularNames = ['카리나', '카리나', '카리나', '카리나', '카리나'];
@@ -57,6 +57,8 @@ const getSessionId = () => {
 };
 
 function App() {
+  const appRootRef = useRef(null);
+  const touchStartYRef = useRef(null);
   const [inputValue, setInputValue] = useState('');
   const [phone, setPhone] = useState('');
   const [savedResult, setSavedResult] = useState(null);
@@ -122,6 +124,67 @@ function App() {
     };
 
     fetchRankings();
+  }, []);
+
+  useEffect(() => {
+    if (!isMobileDevice()) {
+      return undefined;
+    }
+
+    const scroller = appRootRef.current;
+    if (!scroller) {
+      return undefined;
+    }
+
+    let isAutoScrolling = false;
+
+    const jumpToBottom = () => {
+      const maxScrollTop = scroller.scrollHeight - scroller.clientHeight;
+      if (isAutoScrolling || maxScrollTop <= 0 || scroller.scrollTop >= maxScrollTop) {
+        return;
+      }
+
+      isAutoScrolling = true;
+      scroller.scrollTo({ top: scroller.scrollHeight, behavior: 'smooth' });
+      window.setTimeout(() => {
+        isAutoScrolling = false;
+      }, 500);
+    };
+
+    const handleWheel = (event) => {
+      if (event.deltaY > 8) {
+        jumpToBottom();
+      }
+    };
+
+    const handleTouchStart = (event) => {
+      touchStartYRef.current = event.touches[0]?.clientY ?? null;
+    };
+
+    const handleTouchEnd = (event) => {
+      const startY = touchStartYRef.current;
+      const endY = event.changedTouches[0]?.clientY;
+      touchStartYRef.current = null;
+
+      if (typeof startY !== 'number' || typeof endY !== 'number') {
+        return;
+      }
+
+      const swipeDelta = startY - endY;
+      if (swipeDelta > 24) {
+        jumpToBottom();
+      }
+    };
+
+    scroller.addEventListener('wheel', handleWheel, { passive: true });
+    scroller.addEventListener('touchstart', handleTouchStart, { passive: true });
+    scroller.addEventListener('touchend', handleTouchEnd, { passive: true });
+
+    return () => {
+      scroller.removeEventListener('wheel', handleWheel);
+      scroller.removeEventListener('touchstart', handleTouchStart);
+      scroller.removeEventListener('touchend', handleTouchEnd);
+    };
   }, []);
 
   const handleSubmitData = async (event) => {
@@ -194,9 +257,9 @@ function App() {
   };
 
   return (
-    <div className="app-root">
+    <div className="app-root" ref={appRootRef}>
       <main
-        className="hero-section"
+        className="hero-section snap-section"
         data-node-id="228:256"
         style={backgroundImage ? { backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center' } : undefined}
       >
@@ -219,7 +282,7 @@ function App() {
         </div>
       </main>
 
-      <section className="query-section">
+      <section className="query-section snap-section">
         <h2 className="query-title">
           어떤 연예인의 착장 정보가
           <span className="query-title-break"> 가장 궁금하신가요?</span>
