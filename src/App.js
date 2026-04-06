@@ -84,9 +84,24 @@ function App() {
 
     if (!response.ok) {
       const errorText = await response.text();
-      throw new Error(`API 요청 실패: ${response.status} ${errorText || response.statusText}`);
+      throw new Error(`${errorText || response.statusText}`);
     }
-    return response.json();
+
+    // Some endpoints may return 204 or an empty body on success.
+    if (response.status === 204) {
+      return null;
+    }
+
+    const rawBody = await response.text();
+    if (!rawBody) {
+      return null;
+    }
+
+    try {
+      return JSON.parse(rawBody);
+    } catch (error) {
+      throw new Error('API 응답을 JSON으로 해석할 수 없습니다.');
+    }
   };
 
   useEffect(() => {
@@ -138,7 +153,6 @@ function App() {
       setSavedResult(data);
 
       if (!data || (Array.isArray(data) ? data.length === 0 : Object.keys(data).length === 0)) {
-        setStatusMessage('입력하신 데이터가 아직 등록되지 않았습니다. 출시 알림을 신청하시면 알려드릴게요.');
         setIsModalOpen(true);
       }
     } catch (error) {
@@ -250,7 +264,6 @@ function App() {
                     <path d="M12 8L6 14H18L12 8Z" fill="currentColor" />
                   </svg>
                 </span>
-                {item.searchCount != null && <span className="search-count">{item.searchCount.toLocaleString()}회</span>}
               </li>
             ))}
           </ol>
