@@ -35,13 +35,19 @@ body {
   isolation: isolate;
 }
 
-.app-root > * {
-  position: relative;
-  z-index: 1;
-}
-
 .mobile-background-layer {
   display: none;
+}
+
+.mobile-background-layer.is-hidden {
+  opacity: 0;
+}
+
+.hero-section,
+.query-section,
+.modal-overlay {
+  position: relative;
+  z-index: 2;
 }
 
 @media (max-width: 720px) {
@@ -58,15 +64,24 @@ body {
     height: 100dvh;
     z-index: 0;
     pointer-events: none;
-    background-size: cover;
-    background-position: center top;
-    background-repeat: no-repeat;
+    overflow: hidden;
+    opacity: 1;
+    transition: opacity 0.28s ease;
+  }
+
+  .mobile-background-image {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    object-position: center top;
   }
 
   .mobile-background-layer::after {
     content: '';
     position: absolute;
     inset: 0;
+    z-index: 1;
     background: linear-gradient(180deg, rgba(9, 11, 17, 0.44) 0%, rgba(2, 4, 8, 0.78) 56%, rgba(5, 8, 13, 0.95) 100%);
   }
 }

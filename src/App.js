@@ -53,6 +53,7 @@ function App() {
   const [isThanksOpen, setIsThanksOpen] = useState(false);
   const [backgroundImage, setBackgroundImage] = useState('');
   const [isMobileView, setIsMobileView] = useState(false);
+  const [isHeroBackgroundVisible, setIsHeroBackgroundVisible] = useState(true);
 
   const apiFetch = async (url, options = {}) => {
     if (!API_BASE_URL) {
@@ -99,6 +100,7 @@ function App() {
 
       if (!mobile || celebrityImages.length === 0) {
         setBackgroundImage('');
+        setIsHeroBackgroundVisible(false);
         return;
       }
 
@@ -111,6 +113,7 @@ function App() {
       }
 
       setBackgroundImage(celebrityImages[targetIndex]);
+      setIsHeroBackgroundVisible(true);
     };
 
     setRandomBackgroundForMobile();
@@ -146,6 +149,10 @@ function App() {
 
     let isAutoScrolling = false;
 
+    const syncHeroBackgroundVisibility = () => {
+      setIsHeroBackgroundVisible(scroller.scrollTop < scroller.clientHeight * 0.5);
+    };
+
     const jumpToBottom = () => {
       const maxScrollTop = scroller.scrollHeight - scroller.clientHeight;
       if (isAutoScrolling || maxScrollTop <= 0 || scroller.scrollTop >= maxScrollTop) {
@@ -163,6 +170,10 @@ function App() {
       if (event.deltaY > 8) {
         jumpToBottom();
       }
+    };
+
+    const handleScroll = () => {
+      syncHeroBackgroundVisibility();
     };
 
     const handleTouchStart = (event) => {
@@ -184,12 +195,16 @@ function App() {
       }
     };
 
+    syncHeroBackgroundVisibility();
+
     scroller.addEventListener('wheel', handleWheel, { passive: true });
+    scroller.addEventListener('scroll', handleScroll, { passive: true });
     scroller.addEventListener('touchstart', handleTouchStart, { passive: true });
     scroller.addEventListener('touchend', handleTouchEnd, { passive: true });
 
     return () => {
       scroller.removeEventListener('wheel', handleWheel);
+      scroller.removeEventListener('scroll', handleScroll);
       scroller.removeEventListener('touchstart', handleTouchStart);
       scroller.removeEventListener('touchend', handleTouchEnd);
     };
@@ -270,11 +285,9 @@ function App() {
       ref={appRootRef}
     >
       {isMobileView && backgroundImage && (
-        <div
-          className="mobile-background-layer"
-          style={{ backgroundImage: `url(${backgroundImage})` }}
-          aria-hidden="true"
-        />
+        <div className={`mobile-background-layer${isHeroBackgroundVisible ? '' : ' is-hidden'}`} aria-hidden="true">
+          <img className="mobile-background-image" src={backgroundImage} alt="" />
+        </div>
       )}
       <main
         className="hero-section snap-section"
