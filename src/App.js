@@ -169,7 +169,7 @@ function App() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ phone, query: inputValue }),
+        body: JSON.stringify({ phoneNumber: phone, query: inputValue }),
       });
       setIsModalOpen(false);
       setIsThanksOpen(true);
@@ -181,11 +181,12 @@ function App() {
   };
 
   return (
-    <div 
-      className="app-root" 
-      style={backgroundImage ? { backgroundImage: `url(${backgroundImage})` } : {}}
-    >
-      <main className="hero-section" data-node-id="228:256">
+    <div className="app-root">
+      <main
+        className="hero-section"
+        data-node-id="228:256"
+        style={backgroundImage ? { backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center' } : undefined}
+      >
         <img alt="Catchstyle" className="brand" data-node-id="228:243" src={imgCatchstyle} />
         <h1 className="headline" data-node-id="228:258">
           <span>그때 그 착장,</span>

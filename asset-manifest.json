@@ -1,0 +1,30 @@
+{
+  "files": {
+    "main.css": "/catchstyle-mvp/static/css/main.67dfde6a.css",
+    "main.js": "/catchstyle-mvp/static/js/main.da2c303c.js",
+    "static/js/453.77d1c5b9.chunk.js": "/catchstyle-mvp/static/js/453.77d1c5b9.chunk.js",
+    "static/media/IMG_7383 2.png": "/catchstyle-mvp/static/media/IMG_7383 2.fe19b7eae11110486443.png",
+    "static/media/IMG_0588 2.png": "/catchstyle-mvp/static/media/IMG_0588 2.f5c1d242b7d97ed7f8a8.png",
+    "static/media/weverse_20260330135959_1742692651 2.png": "/catchstyle-mvp/static/media/weverse_20260330135959_1742692651 2.4cb6614d10915bb52c15.png",
+    "static/media/weverse_20260330143523_1363134248 2.png": "/catchstyle-mvp/static/media/weverse_20260330143523_1363134248 2.d0c87c1cc1ccd5fda323.png",
+    "static/media/KakaoTalk_Photo_2026-03-30-15-10-37 2.png": "/catchstyle-mvp/static/media/KakaoTalk_Photo_2026-03-30-15-10-37 2.1b863698674278b4af27.png",
+    "static/media/image 6740.png": "/catchstyle-mvp/static/media/image 6740.20f3a817d5bdcd5ffdb5.png",
+    "static/media/weverse_20260329222131_2914655965 2.png": "/catchstyle-mvp/static/media/weverse_20260329222131_2914655965 2.bd012e02da972522f78a.png",
+    "static/media/IMG_7384 3.png": "/catchstyle-mvp/static/media/IMG_7384 3.d5e45bb0c7a404af0c8c.png",
+    "static/media/image 6742.png": "/catchstyle-mvp/static/media/image 6742.c4119a85f51a1ce15aa4.png",
+    "static/media/IMG_0590 2.png": "/catchstyle-mvp/static/media/IMG_0590 2.24cb0615f8746d562d52.png",
+    "static/media/image 6743.png": "/catchstyle-mvp/static/media/image 6743.b7971f3ce8aaf210d039.png",
+    "static/media/IMG_0589 2.png": "/catchstyle-mvp/static/media/IMG_0589 2.5d069d7dae5e2fa45c38.png",
+    "static/media/IMG_0613 2.png": "/catchstyle-mvp/static/media/IMG_0613 2.2d29ae4f9900deb70b34.png",
+    "static/media/image 6741.png": "/catchstyle-mvp/static/media/image 6741.6cab24b938e63e07e311.png",
+    "static/media/IMG_0612 2.png": "/catchstyle-mvp/static/media/IMG_0612 2.dbbcb80cbc9b051e0b9d.png",
+    "index.html": "/catchstyle-mvp/index.html",
+    "main.67dfde6a.css.map": "/catchstyle-mvp/static/css/main.67dfde6a.css.map",
+    "main.da2c303c.js.map": "/catchstyle-mvp/static/js/main.da2c303c.js.map",
+    "453.77d1c5b9.chunk.js.map": "/catchstyle-mvp/static/js/453.77d1c5b9.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.67dfde6a.css",
+    "static/js/main.da2c303c.js"
+  ]
+}
