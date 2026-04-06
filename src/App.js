@@ -39,6 +39,30 @@ const getNextRandomIndex = (max, previousIndex) => {
   return (nextIndex + 1 + getRandomIndex(max - 1)) % max;
 };
 
+const formatRankingsUpdatedAt = (updatedAt) => {
+  if (!updatedAt) {
+    return '실시간 업데이트 기준';
+  }
+
+  const parsed = new Date(updatedAt);
+  if (Number.isNaN(parsed.getTime())) {
+    return '실시간 업데이트 기준';
+  }
+
+  const now = new Date();
+  const hour = String(parsed.getHours()).padStart(2, '0');
+  const minute = String(parsed.getMinutes()).padStart(2, '0');
+
+  if (parsed.toDateString() === now.toDateString()) {
+    return `오늘 ${hour}:${minute} 기준`;
+  }
+
+  const year = parsed.getFullYear();
+  const month = String(parsed.getMonth() + 1).padStart(2, '0');
+  const day = String(parsed.getDate()).padStart(2, '0');
+  return `${year}.${month}.${day} ${hour}:${minute} 기준`;
+};
+
 // 모바일 감지 함수
 const isMobileDevice = () => {
   return window.matchMedia(MOBILE_MEDIA_QUERY).matches;
@@ -73,6 +97,7 @@ function App() {
   const [phone, setPhone] = useState('');
   const [savedResult, setSavedResult] = useState(null);
   const [rankings, setRankings] = useState([]);
+  const [rankingsUpdatedAt, setRankingsUpdatedAt] = useState('');
   const [statusMessage, setStatusMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -154,12 +179,18 @@ function App() {
       try {
         const data = await apiFetch(RANKINGS_PATH, { method: 'GET' });
         setRankings(Array.isArray(data?.rankings) ? data.rankings : []);
+        setRankingsUpdatedAt(typeof data?.updatedAt === 'string' ? data.updatedAt : '');
       } catch (error) {
         console.warn('인기 순위 조회 실패:', error);
       }
     };
 
     fetchRankings();
+    const intervalId = window.setInterval(fetchRankings, 60 * 1000);
+
+    return () => {
+      window.clearInterval(intervalId);
+    };
   }, []);
 
   useEffect(() => {
@@ -370,7 +401,7 @@ function App() {
         <article className="popular-card">
           <div className="popular-card-header">
             <h3>다른 사람들이 궁금해하는 연예인이에요</h3>
-            <span>오늘 11:45기준</span>
+            <span>{formatRankingsUpdatedAt(rankingsUpdatedAt)}</span>
           </div>
           <ol className="popular-list">
             {(rankings.length > 0 ? rankings : popularNames.map((name, index) => ({ rank: index + 1, keyword: name }))).map((item, index) => (
