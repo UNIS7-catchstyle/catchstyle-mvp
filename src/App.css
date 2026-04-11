@@ -125,6 +125,9 @@ body {
   .headline {
     white-space: normal;
     text-align: center;
+    font-size: 20px;
+    line-height: 30px;
+    padding: 0 20px;
   }
 
   .headline-break {
@@ -146,6 +149,15 @@ body {
   font-size: 16px;
   line-height: 26px;
   font-weight: 500;
+}
+
+@media (max-width: 720px) {
+  .hero-bullet {
+    padding: 0 20px;
+  }
+  .hero-copy {
+    padding: 0 20px;
+  }
 }
 
 .hero-copy p {
