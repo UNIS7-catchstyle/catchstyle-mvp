@@ -165,7 +165,7 @@ body {
   .hero-bullet {
     width: 100%;
     padding: 0 20px;
-    margin-top: 20px;
+    margin-top: 42.5px;
     font-size: 20px;
     line-height: 20px;
     color: #ffffff;
@@ -200,6 +200,12 @@ body {
   width: 40px;
   height: 40px;
   display: block;
+}
+
+@media (max-width: 720px) {
+  .hero-down-indicator {
+    padding: 0 0 167.5px;
+  }
 }
 
 .query-section {

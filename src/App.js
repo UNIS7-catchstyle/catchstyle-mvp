@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import './App.css';
 import imgHeroDownIndicator from './logos/stat_minus_3.svg';
 import imgCatchstyle from './logos/Catchstyle.svg';
@@ -73,6 +73,56 @@ function App() {
   const [isThanksOpen, setIsThanksOpen] = useState(false);
   const [backgroundImage, setBackgroundImage] = useState('');
   const [isMobileView, setIsMobileView] = useState(false);
+  const heroSectionRef = useRef(null);
+  const querySectionRef = useRef(null);
+  const touchStartYRef = useRef(null);
+  const isAutoScrollingRef = useRef(false);
+  const autoScrollUnlockTimerRef = useRef(null);
+
+  const lockAutoScroll = useCallback(() => {
+    isAutoScrollingRef.current = true;
+    if (autoScrollUnlockTimerRef.current) {
+      window.clearTimeout(autoScrollUnlockTimerRef.current);
+    }
+    autoScrollUnlockTimerRef.current = window.setTimeout(() => {
+      isAutoScrollingRef.current = false;
+    }, 700);
+  }, []);
+
+  const navigateSectionByDirection = useCallback(
+    (direction) => {
+      if (isAutoScrollingRef.current) {
+        return false;
+      }
+
+      const heroSection = heroSectionRef.current;
+      const querySection = querySectionRef.current;
+      if (!heroSection || !querySection) {
+        return false;
+      }
+
+      const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+      const heroRect = heroSection.getBoundingClientRect();
+      const queryRect = querySection.getBoundingClientRect();
+      const isHeroActive = heroRect.top <= viewportHeight * 0.3 && heroRect.bottom > viewportHeight * 0.45;
+      const isQueryActive = queryRect.top < viewportHeight * 0.55 && queryRect.bottom >= viewportHeight * 0.4;
+
+      if (direction > 0 && isHeroActive) {
+        lockAutoScroll();
+        querySection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        return true;
+      }
+
+      if (direction < 0 && isQueryActive) {
+        lockAutoScroll();
+        heroSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        return true;
+      }
+
+      return false;
+    },
+    [lockAutoScroll],
+  );
 
   const apiFetch = async (url, options = {}) => {
     if (!API_BASE_URL) {
@@ -157,6 +207,76 @@ function App() {
     };
   }, []);
 
+  useEffect(() => {
+    const handleWheel = (event) => {
+      if (Math.abs(event.deltaY) < 8) {
+        return;
+      }
+
+      const direction = event.deltaY > 0 ? 1 : -1;
+      const navigated = navigateSectionByDirection(direction);
+      if (navigated) {
+        event.preventDefault();
+      }
+    };
+
+    const handleTouchStart = (event) => {
+      touchStartYRef.current = event.changedTouches?.[0]?.clientY ?? null;
+    };
+
+    const handleTouchEnd = (event) => {
+      const touchStartY = touchStartYRef.current;
+      const touchEndY = event.changedTouches?.[0]?.clientY;
+      touchStartYRef.current = null;
+
+      if (touchStartY === null || typeof touchEndY !== 'number') {
+        return;
+      }
+
+      const deltaY = touchStartY - touchEndY;
+      if (Math.abs(deltaY) < 24) {
+        return;
+      }
+
+      const direction = deltaY > 0 ? 1 : -1;
+      navigateSectionByDirection(direction);
+    };
+
+    const handleKeyDown = (event) => {
+      let direction = 0;
+
+      if (event.key === 'ArrowDown' || event.key === 'PageDown' || (event.key === ' ' && !event.shiftKey)) {
+        direction = 1;
+      } else if (event.key === 'ArrowUp' || event.key === 'PageUp' || (event.key === ' ' && event.shiftKey)) {
+        direction = -1;
+      }
+
+      if (direction === 0) {
+        return;
+      }
+
+      const navigated = navigateSectionByDirection(direction);
+      if (navigated) {
+        event.preventDefault();
+      }
+    };
+
+    window.addEventListener('wheel', handleWheel, { passive: false });
+    window.addEventListener('touchstart', handleTouchStart, { passive: true });
+    window.addEventListener('touchend', handleTouchEnd, { passive: true });
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      window.removeEventListener('wheel', handleWheel);
+      window.removeEventListener('touchstart', handleTouchStart);
+      window.removeEventListener('touchend', handleTouchEnd);
+      window.removeEventListener('keydown', handleKeyDown);
+      if (autoScrollUnlockTimerRef.current) {
+        window.clearTimeout(autoScrollUnlockTimerRef.current);
+      }
+    };
+  }, [navigateSectionByDirection]);
+
   const handleSubmitData = async (event) => {
     event?.preventDefault();
     setErrorMessage('');
@@ -234,6 +354,7 @@ function App() {
         </div>
       )}
       <main
+        ref={heroSectionRef}
         className="hero-section snap-section"
         data-node-id="228:256"
       >
@@ -256,7 +377,7 @@ function App() {
         </div>
       </main>
 
-      <section className="query-section snap-section">
+      <section ref={querySectionRef} className="query-section snap-section">
         <h2 className="query-title">
           어떤 연예인의 착장 정보가
           <span className="query-title-break"> 가장 궁금하신가요?</span>
