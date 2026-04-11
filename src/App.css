@@ -70,6 +70,7 @@ body {
   }
 
   .mobile-background-layer {
+    --overlay-start-offset:100px;
     display: block;
     position: absolute;
     top: 0;
@@ -97,7 +98,13 @@ body {
     position: absolute;
     inset: 0;
     z-index: 1;
-    background: linear-gradient(180deg, rgba(16, 18, 20, 0.26) 0%, rgba(16, 18, 20, 0) 24%);
+    background: linear-gradient(
+      180deg,
+      rgba(16, 18, 20, 0) 0,
+      rgba(16, 18, 20, 0) var(--overlay-start-offset),
+      rgba(16, 18, 20, 0.26) calc(var(--overlay-start-offset) + 24px),
+      rgba(16, 18, 20, 0) calc(var(--overlay-start-offset) + 120px)
+    );
   }
 
   .mobile-background-layer::after {
@@ -105,7 +112,15 @@ body {
     position: absolute;
     inset: 0;
     z-index: 2;
-    background: linear-gradient(180deg, rgba(16, 18, 20, 0) 0%, rgba(16, 18, 20, 0.16) 22%, rgba(16, 18, 20, 0.36) 40%, rgba(16, 18, 20, 0.82) 64%, #101214 80%);
+    background: linear-gradient(
+      180deg,
+      rgba(16, 18, 20, 0) 0,
+      rgba(16, 18, 20, 0) var(--overlay-start-offset),
+      rgba(16, 18, 20, 0.16) calc(var(--overlay-start-offset) + 80px),
+      rgba(16, 18, 20, 0.36) calc(var(--overlay-start-offset) + 170px),
+      rgba(16, 18, 20, 0.82) calc(var(--overlay-start-offset) + 280px),
+      #101214 calc(var(--overlay-start-offset) + 400px)
+    );
   }
 }
 
