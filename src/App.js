@@ -3,7 +3,7 @@ import './App.css';
 import imgHeroDownIndicator from './logos/stat_minus_3.svg';
 import imgCatchstyle from './logos/Catchstyle.svg';
 
-const popularNames = ['카리나', '카리나', '카리나', '카리나', '카리나'];
+const popularNames = ['-', '-', '-', '-', '-'];
 
 const MOBILE_MEDIA_QUERY = '(max-width: 720px)';
 const celebrityImages = (() => {
