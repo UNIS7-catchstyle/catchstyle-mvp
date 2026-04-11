@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import './App.css';
+import imgHeroDownIndicator from './logos/stat_minus_3.svg';
+import imgCatchstyle from './logos/Catchstyle.svg';
 
 const popularNames = ['카리나', '카리나', '카리나', '카리나', '카리나'];
-const imgHeroDownIndicator = "https://www.figma.com/api/mcp/asset/09156f0e-d1fb-4ba2-afae-eaac104386f5";
-const imgCatchstyle = "https://www.figma.com/api/mcp/asset/1ff63f56-8a89-4a93-93a7-d5a47438afb3";
 
 const MOBILE_MEDIA_QUERY = '(max-width: 720px)';
 const celebrityImages = (() => {
