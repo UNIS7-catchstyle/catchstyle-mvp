@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
 import imgHeroDownIndicator from './logos/stat_minus_3.svg';
 import imgCatchstyle from './logos/Catchstyle.svg';
@@ -39,11 +39,6 @@ const getNextRandomIndex = (max, previousIndex) => {
   return (nextIndex + 1 + getRandomIndex(max - 1)) % max;
 };
 
-// 모바일 감지 함수
-const isMobileDevice = () => {
-  return window.matchMedia(MOBILE_MEDIA_QUERY).matches;
-};
-
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'https://catchstyle-mvp-be.onrender.com';
 const SEARCH_PATH = '/api/v1/search';
 const RANKINGS_PATH = '/api/v1/rankings';
@@ -67,8 +62,6 @@ const getSessionId = () => {
 };
 
 function App() {
-  const appRootRef = useRef(null);
-  const touchStartYRef = useRef(null);
   const [inputValue, setInputValue] = useState('');
   const [phone, setPhone] = useState('');
   const [savedResult, setSavedResult] = useState(null);
@@ -80,7 +73,6 @@ function App() {
   const [isThanksOpen, setIsThanksOpen] = useState(false);
   const [backgroundImage, setBackgroundImage] = useState('');
   const [isMobileView, setIsMobileView] = useState(false);
-  const [isHeroBackgroundVisible, setIsHeroBackgroundVisible] = useState(true);
 
   const apiFetch = async (url, options = {}) => {
     if (!API_BASE_URL) {
@@ -127,7 +119,6 @@ function App() {
 
       if (!mobile || celebrityImages.length === 0) {
         setBackgroundImage('');
-        setIsHeroBackgroundVisible(false);
         return;
       }
 
@@ -138,7 +129,6 @@ function App() {
       localStorage.setItem(MOBILE_BG_PREVIOUS_KEY, String(targetIndex));
 
       setBackgroundImage(celebrityImages[targetIndex]);
-      setIsHeroBackgroundVisible(true);
     };
 
     setRandomBackgroundForMobile();
@@ -164,79 +154,6 @@ function App() {
 
     return () => {
       window.clearInterval(intervalId);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (!isMobileDevice()) {
-      return undefined;
-    }
-
-    const scroller = appRootRef.current;
-    if (!scroller) {
-      return undefined;
-    }
-
-    let isAutoScrolling = false;
-
-    const syncHeroBackgroundVisibility = () => {
-      setIsHeroBackgroundVisible(scroller.scrollTop < scroller.clientHeight * 0.5);
-    };
-
-    const jumpToBottom = () => {
-      const maxScrollTop = scroller.scrollHeight - scroller.clientHeight;
-      if (isAutoScrolling || maxScrollTop <= 0 || scroller.scrollTop >= maxScrollTop) {
-        return;
-      }
-
-      isAutoScrolling = true;
-      scroller.scrollTo({ top: scroller.scrollHeight, behavior: 'smooth' });
-      window.setTimeout(() => {
-        isAutoScrolling = false;
-      }, 500);
-    };
-
-    const handleWheel = (event) => {
-      if (event.deltaY > 8) {
-        jumpToBottom();
-      }
-    };
-
-    const handleScroll = () => {
-      syncHeroBackgroundVisibility();
-    };
-
-    const handleTouchStart = (event) => {
-      touchStartYRef.current = event.touches[0]?.clientY ?? null;
-    };
-
-    const handleTouchEnd = (event) => {
-      const startY = touchStartYRef.current;
-      const endY = event.changedTouches[0]?.clientY;
-      touchStartYRef.current = null;
-
-      if (typeof startY !== 'number' || typeof endY !== 'number') {
-        return;
-      }
-
-      const swipeDelta = startY - endY;
-      if (swipeDelta > 24) {
-        jumpToBottom();
-      }
-    };
-
-    syncHeroBackgroundVisibility();
-
-    scroller.addEventListener('wheel', handleWheel, { passive: true });
-    scroller.addEventListener('scroll', handleScroll, { passive: true });
-    scroller.addEventListener('touchstart', handleTouchStart, { passive: true });
-    scroller.addEventListener('touchend', handleTouchEnd, { passive: true });
-
-    return () => {
-      scroller.removeEventListener('wheel', handleWheel);
-      scroller.removeEventListener('scroll', handleScroll);
-      scroller.removeEventListener('touchstart', handleTouchStart);
-      scroller.removeEventListener('touchend', handleTouchEnd);
     };
   }, []);
 
@@ -310,12 +227,9 @@ function App() {
   };
 
   return (
-    <div
-      className="app-root"
-      ref={appRootRef}
-    >
+    <div className="app-root">
       {isMobileView && backgroundImage && (
-        <div className={`mobile-background-layer${isHeroBackgroundVisible ? '' : ' is-hidden'}`} aria-hidden="true">
+        <div className="mobile-background-layer" aria-hidden="true">
           <img className="mobile-background-image" src={backgroundImage} alt="" />
         </div>
       )}

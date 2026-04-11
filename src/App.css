@@ -14,7 +14,7 @@ body,
 }
 
 body {
-  font-family: 'SUIT', 'Noto Sans KR', 'Segoe UI', Roboto, Arial, sans-serif;
+  font-family: Suit;
   background-color: #06080d;
   color: #f6f7f9;
   overflow-x: hidden;
@@ -39,10 +39,6 @@ body {
   display: none;
 }
 
-.mobile-background-layer.is-hidden {
-  opacity: 0;
-}
-
 .hero-section,
 .query-section,
 .modal-overlay {
@@ -52,21 +48,24 @@ body {
 
 @media (max-width: 720px) {
   .app-root {
-    background: linear-gradient(180deg, #090b11 0%, #020408 45%, #05080d 100%);
+    min-height: 100dvh;
+    background: #101214;
+    gap: 0;
+    padding: 0 0 28px;
+    align-items: center;
   }
 
   .mobile-background-layer {
     display: block;
-    position: fixed;
+    position: absolute;
     top: 0;
-    left: 0;
-    right: 0;
-    height: 100dvh;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(375px, 100%);
+    height: 520px;
     z-index: 0;
     pointer-events: none;
     overflow: hidden;
-    opacity: 1;
-    transition: opacity 0.28s ease;
   }
 
   .mobile-background-image {
@@ -74,15 +73,25 @@ body {
     height: 100%;
     display: block;
     object-fit: cover;
-    object-position: center top;
+    object-position: center 0;
+    transform: scale(1.05);
+    transform-origin: center top;
+  }
+
+  .mobile-background-layer::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(180deg, rgba(16, 18, 20, 0.26) 0%, rgba(16, 18, 20, 0) 24%);
   }
 
   .mobile-background-layer::after {
     content: '';
     position: absolute;
     inset: 0;
-    z-index: 1;
-    background: linear-gradient(180deg, rgba(9, 11, 17, 0.44) 0%, rgba(2, 4, 8, 0.78) 56%, rgba(5, 8, 13, 0.95) 100%);
+    z-index: 2;
+    background: linear-gradient(180deg, rgba(16, 18, 20, 0) 0%, rgba(16, 18, 20, 0.16) 22%, rgba(16, 18, 20, 0.36) 40%, rgba(16, 18, 20, 0.82) 64%, #101214 80%);
   }
 }
 
@@ -122,11 +131,12 @@ body {
 
 @media (max-width: 720px) {
   .headline {
+    margin: 0;
     white-space: normal;
-    text-align: center;
+    text-align: left;
     font-size: 20px;
     line-height: 30px;
-    padding: 0 20px 20px;
+    padding: 0 20px;
   }
 
   .headline-break {
@@ -153,10 +163,23 @@ body {
 
 @media (max-width: 720px) {
   .hero-bullet {
+    width: 100%;
     padding: 0 20px;
+    margin-top: 20px;
+    font-size: 20px;
+    line-height: 20px;
+    color: #ffffff;
   }
+
   .hero-copy {
-    padding: 0 20px 40px;
+    margin-top: 12px;
+    margin-bottom: 0;
+    padding: 0 20px;
+    width: 100%;
+    font-size: 14px;
+    line-height: 22px;
+    color: #d4d4d4;
+    font-weight: 400;
   }
 }
 
@@ -373,54 +396,35 @@ body {
 }
 
 @media (max-width: 720px) {
-  html,
-  body,
-  #root {
-    height: 100%;
-    overflow: hidden;
-  }
-
-  .app-root {
-    min-height: 100dvh;
-    height: 100dvh;
-    overflow-y: auto;
-    scroll-snap-type: y mandatory;
-    -webkit-overflow-scrolling: touch;
-    overscroll-behavior-y: contain;
-    gap: 0;
-    padding: 0;
-  }
-
-  .snap-section {
-    min-height: 100dvh;
-    scroll-snap-align: start;
-    scroll-snap-stop: always;
-    padding: 36px 16px 34px;
-  }
-
   .hero-section {
-    width: 100%;
-    gap: 12px;
+    width: min(375px, 100%);
+    padding-top: 387px;
+    padding-bottom: 0;
+    gap: 0;
     text-align: left;
-    align-items: flex-start;
-    justify-content: flex-end;
-    padding-top: 56px;
-    padding-bottom: 48px;
+    align-items: center;
+    justify-content: flex-start;
   }
 
   .query-section {
-    width: 100%;
-    gap: 14px;
+    width: min(375px, 100%);
+    gap: 24px;
     text-align: center;
     align-items: center;
-    background: #05080d;
+    background: transparent;
+    margin-top: 24px;
+    padding: 8px 20px 0;
   }
 
   .hero-section .brand {
-    width: auto;
+    width: 103.076px;
+    height: 19.416px;
+    position: absolute;
+    top: 44px;
+    left: 50%;
+    transform: translateX(-50%);
     text-align: center;
-    align-self: center;
-    margin-bottom: auto;
+    margin: 0;
   }
 
   .hero-section .headline,
@@ -433,30 +437,32 @@ body {
   .hero-section .hero-down-indicator {
     text-align: center;
     align-self: center;
-  }
-
-  .headline {
-    font-size: 31px;
-    line-height: 42px;
-    letter-spacing: 0;
-  }
-
-  .hero-copy {
-    font-size: 14px;
-    line-height: 21px;
-    color: rgba(255, 255, 255, 0.78);
-  }
-
-  .hero-bullet {
-    font-size: 22px;
-    margin-top: 0;
-    margin-bottom: 2px;
+    margin-top: 40px;
+    margin-bottom: 0;
   }
 
   .query-section h2 {
-    font-size: 32px;
-    line-height: 42px;
-    letter-spacing: -0.03em;
+    font-size: 20px;
+    line-height: 30px;
+    letter-spacing: 0;
+  }
+
+  .query-title {
+    white-space: normal;
+    display: block;
+    text-align: center;
+  }
+
+  .query-title-break {
+    display: block;
+    line-height: 30px;
+  }
+
+  .subtitle {
+    margin-top: 8px;
+    font-size: 14px;
+    line-height: 22px;
+    color: #d4d4d4;
   }
 
   .search-form {
@@ -465,7 +471,8 @@ body {
     min-height: 48px;
     padding: 8px 8px 8px 20px;
     gap: 10px;
-    margin-top: 10px;
+    margin-top: 20px;
+    margin-bottom: 0;
   }
 
   .search-input {
@@ -484,7 +491,7 @@ body {
   }
 
   .popular-card {
-    width: min(348px, 100%);
+    width: min(336px, 100%);
     border: 1.5px solid #313232;
     border-radius: 20px;
     padding: 20px 0;
@@ -529,30 +536,6 @@ body {
   .popular-list li > .name {
     margin-right: auto;
     margin-left: 24px;
-  }
-}
-
-@media (max-width: 480px) {
-  .app-root {
-    padding: 0;
-  }
-
-  .snap-section {
-    padding: 28px 12px 26px;
-  }
-
-  .headline {
-    font-size: 20px;
-    line-height: 28px;
-  }
-
-  .query-section h2 {
-    font-size: 20px;
-  }
-
-  .hero-copy {
-    font-size: 13px;
-    line-height: 20px;
   }
 }
 
