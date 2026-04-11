@@ -121,6 +121,11 @@ body {
   height: 19.416px;
   display: block;
   margin-inline: auto;
+  position: fixed;
+  top: 44px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 30;
 }
 
 @media (max-width: 970px) {
@@ -439,12 +444,13 @@ body {
   .hero-section .brand {
     width: 103.076px;
     height: 19.416px;
-    position: absolute;
+    position: fixed;
     top: 44px;
     left: 50%;
     transform: translateX(-50%);
     text-align: center;
     margin: 0;
+    z-index: 30;
   }
 
   .hero-section .headline,
