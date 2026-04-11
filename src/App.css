@@ -61,7 +61,7 @@ body {
     top: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: min(375px, 100%);
+    width: 100%;
     height: 520px;
     z-index: 0;
     pointer-events: none;
