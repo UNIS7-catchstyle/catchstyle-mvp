@@ -63,6 +63,7 @@ const getSessionId = () => {
 
 function App() {
   const [inputValue, setInputValue] = useState('');
+  const [lastSubmittedQuery, setLastSubmittedQuery] = useState('');
   const [phone, setPhone] = useState('');
   const [savedResult, setSavedResult] = useState(null);
   const [rankings, setRankings] = useState([]);
@@ -279,11 +280,12 @@ function App() {
 
   const handleSubmitData = async (event) => {
     event?.preventDefault();
+    const keyword = inputValue.trim();
     setErrorMessage('');
     setStatusMessage('');
     setSavedResult(null);
 
-    if (!inputValue.trim()) {
+    if (!keyword) {
       setErrorMessage('원하는 연예인을 입력해주세요');
       return;
     }
@@ -301,8 +303,10 @@ function App() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ keyword: inputValue }),
+        body: JSON.stringify({ keyword }),
       });
+      setLastSubmittedQuery(keyword);
+      setInputValue('');
       setSavedResult(data);
 
       if (!data || (Array.isArray(data) ? data.length === 0 : Object.keys(data).length === 0)) {
@@ -335,7 +339,7 @@ function App() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ phoneNumber: phone, query: inputValue }),
+        body: JSON.stringify({ phoneNumber: phone, query: lastSubmittedQuery }),
       });
       setIsModalOpen(false);
       setIsThanksOpen(true);
