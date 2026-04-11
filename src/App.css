@@ -210,36 +210,47 @@ body {
 .search-form {
   margin-top: 14px;
   display: flex;
-  justify-content: center;
+  align-items: center;
+  justify-content: space-between;
   width: 100%;
-  gap: 8px;
+  min-height: 64px;
+  padding: 10px 10px 10px 25px;
+  border-radius: 999px;
+  background: #313232;
+  gap: 14px;
 }
 
 .search-input {
-  flex: 1 1 0;
+  flex: 1 1 auto;
   min-width: 0;
-  padding: 12px 14px;
-  border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  background: rgba(255, 255, 255, 0.08);
-  color: #fff;
-  font-size: 15px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 24px;
   outline: none;
 }
 
 .search-input::placeholder {
-  color: rgba(255, 255, 255, 0.45);
+  color: #7e7e7e;
+  opacity: 1;
 }
 
 .search-button {
+  min-width: 79px;
+  padding: 10px 13px;
   border: none;
-  background: rgba(255, 255, 255, 0.9);
-  color: #0a0b0f;
+  background: #ffffff;
+  color: #101214;
+  font-size: 18px;
   font-weight: 700;
+  line-height: 24px;
   border-radius: 999px;
-  padding: 12px 22px;
   cursor: pointer;
   transition: transform 0.15s ease, filter 0.15s ease;
+  flex-shrink: 0;
 }
 
 .search-button:hover {
@@ -400,23 +411,27 @@ body {
   }
 
   .search-form {
-    flex-direction: row;
     align-items: center;
-    gap: 8px;
+    width: min(300px, 100%);
+    min-height: 48px;
+    padding: 8px 8px 8px 20px;
+    gap: 10px;
     margin-top: 10px;
   }
 
   .search-input {
-    height: 40px;
-    padding: 8px 14px;
     font-size: 14px;
+    line-height: 17px;
+    letter-spacing: 1px;
   }
 
   .search-button {
-    width: auto;
-    min-width: 74px;
-    height: 40px;
-    padding: 0 18px;
+    width: 63px;
+    min-width: 63px;
+    padding: 8px 10px;
+    font-size: 14px;
+    line-height: 17px;
+    letter-spacing: 1px;
   }
 
   .popular-card {
