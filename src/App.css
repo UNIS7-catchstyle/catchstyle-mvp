@@ -70,7 +70,7 @@ body {
   }
 
   .mobile-background-layer {
-    --overlay-start-offset:100px;
+    --overlay-start-offset: 100px;
     display: block;
     position: absolute;
     top: 0;
@@ -437,7 +437,7 @@ body {
 @media (max-width: 720px) {
   .hero-section {
     width: min(375px, 100%);
-    padding-top: 333.79px;
+    padding-top: 373.79px;
     padding-bottom: 0;
     gap: 0;
     text-align: left;
