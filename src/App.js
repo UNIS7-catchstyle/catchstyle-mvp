@@ -247,7 +247,7 @@ function App() {
     setSavedResult(null);
 
     if (!inputValue.trim()) {
-      setErrorMessage('입력값을 입력해주세요.');
+      setErrorMessage('원하는 연예인을 입력해주세요');
       return;
     }
 
@@ -432,7 +432,9 @@ function App() {
               감사합니다
             </h3>
             <p className="thanks-message">
-              손민수를 좋아하는 친구가 있다면 링크를 공유해 주세요
+              손민수를 좋아하는 친구가 있다면
+              <br />
+              링크를 공유해 주세요
             </p>
             <div className="thanks-actions">
               <button className="thanks-button outline" onClick={() => setIsThanksOpen(false)}>
