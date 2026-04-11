@@ -404,7 +404,7 @@ body {
 @media (max-width: 720px) {
   .hero-section {
     width: min(375px, 100%);
-    padding-top: 387px;
+    padding-top: 307px;
     padding-bottom: 0;
     gap: 0;
     text-align: left;
