@@ -13,11 +13,25 @@ body,
   min-height: 100%;
 }
 
+@font-face {
+  font-family: 'SUIT Variable';
+  src: url('./fonts/SUIT-Variable.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 body {
-  font-family: Suit;
+  font-family: 'SUIT Variable', sans-serif;
   background-color: #06080d;
   color: #f6f7f9;
   overflow-x: hidden;
+}
+
+*,
+*::before,
+*::after {
+  font-family: 'SUIT Variable', sans-serif !important;
 }
 
 .app-root {
