@@ -334,7 +334,7 @@ function App() {
         </div>
         <div className="hero-copy">
           <p>인스타그램, X 더 이상 헤매지 마세요</p>
-          <p>날짜별 셀럽 착장 정보부터, 구매까지 한 곳에 모았습니다</p>
+          <p>날짜별 연예인 착장 정보부터, 구매까지 한 곳에 모았습니다</p>
           <p>가장 정확한 착장 아카이브 서비스가 곧 시작됩니다</p>
         </div>
         <div className="hero-down-indicator" aria-hidden="true" data-node-id="228:259">
