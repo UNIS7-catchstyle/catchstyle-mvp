@@ -231,7 +231,6 @@ body {
   width: min(960px, 100%);
   display: flex;
   flex-direction: column;
-  gap: 18px;
   text-align: center;
 }
 
@@ -433,7 +432,7 @@ body {
 
   .query-section {
     width: min(375px, 100%);
-    gap: 12px;
+    gap: 0;
     text-align: center;
     align-items: center;
     background: transparent;
@@ -498,7 +497,7 @@ body {
     padding: 8px 8px 8px 20px;
     gap: 10px;
     margin-top: 20px;
-    margin-bottom: 0;
+    margin-bottom: 12px;
   }
 
   .search-input {
