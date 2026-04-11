@@ -190,7 +190,7 @@ body {
   margin: 0;
   font-size: 28px;
   font-weight: 700;
-  line-height: 36px;
+  line-height: 30px;
 }
 
 .query-title {
@@ -210,12 +210,14 @@ body {
 
   .query-title-break {
     display: block;
+    line-height: 30px;
   }
 }
 
 .subtitle {
   margin: 0;
-  font-size: 16px;
+  font-size: 20px;
+  line-height: 30px;
   color: rgba(255, 255, 255, 0.6);
 }
 
