@@ -70,7 +70,7 @@ body {
   }
 
   .mobile-background-layer {
-    --overlay-start-offset: 100px;
+    --overlay-start-offset: 0px;
     display: block;
     position: absolute;
     top: 0;
@@ -101,9 +101,9 @@ body {
     background: linear-gradient(
       180deg,
       rgba(16, 18, 20, 0) 0,
-      rgba(16, 18, 20, 0) var(--overlay-start-offset),
-      rgba(16, 18, 20, 0.26) calc(var(--overlay-start-offset) + 24px),
-      rgba(16, 18, 20, 0) calc(var(--overlay-start-offset) + 120px)
+      rgba(16, 18, 20, 1) var(--overlay-start-offset),
+      rgba(16, 18, 20, 0.66) calc(var(--overlay-start-offset) + 0px),
+      rgba(16, 18, 20, 0) calc(var(--overlay-start-offset) + 182px)
     );
   }
 
@@ -116,10 +116,10 @@ body {
       180deg,
       rgba(16, 18, 20, 0) 0,
       rgba(16, 18, 20, 0) var(--overlay-start-offset),
-      rgba(16, 18, 20, 0.16) calc(var(--overlay-start-offset) + 80px),
-      rgba(16, 18, 20, 0.36) calc(var(--overlay-start-offset) + 170px),
-      rgba(16, 18, 20, 0.82) calc(var(--overlay-start-offset) + 280px),
-      #101214 calc(var(--overlay-start-offset) + 400px)
+      rgba(16, 18, 20, 0.16) calc(var(--overlay-start-offset) + 220px),
+      rgba(16, 18, 20, 0.36) calc(var(--overlay-start-offset) + 320px),
+      rgba(16, 18, 20, 0.82) calc(var(--overlay-start-offset) + 420px),
+      #101214 calc(var(--overlay-start-offset) + 520px)
     );
   }
 }
