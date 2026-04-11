@@ -222,7 +222,8 @@ body {
 }
 
 .search-form {
-  margin-top: 14px;
+  margin-top: 32px;
+  margin-bottom: 68px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -231,7 +232,6 @@ body {
   padding: 10px 10px 10px 25px;
   border-radius: 999px;
   background: #313232;
-  gap: 14px;
 }
 
 .search-input {
