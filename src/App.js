@@ -394,7 +394,7 @@ function App() {
             onChange={(e) => setInputValue(e.target.value)}
           />
           <button type="submit" className="search-button">
-            {isLoading ? '저장 중...' : '등록'}
+            {isLoading ? '저장중' : '등록'}
           </button>
         </form>
 
@@ -448,10 +448,12 @@ function App() {
               onChange={(e) => setPhone(e.target.value)}
             />
             <p className="modal-note">
-              * 입력하신 정보는 출시 알림 외에 사용되지 않으며, 발송 직후 즉시 폐기됩니다.
+              * 입력하신 정보는 출시 알림 외에 사용되지
+              <br />
+                않으며, 발송 직후 즉시 폐기됩니다.
             </p>
             <button className="modal-action" onClick={handleNotify}>
-              {isLoading ? '전송 중...' : '출시 알림 받기'}
+              {isLoading ? '전송중' : '출시 알림 받기'}
             </button>
           </div>
         </div>
