@@ -148,7 +148,7 @@ body {
   font-size: 32px;
   font-weight: 700;
   line-height: 44px;
-  margin-top: 130.29px;
+  margin-top: 160px; /* 원래 129.79px */
   letter-spacing: -0.02em;
   white-space: nowrap;
 }
