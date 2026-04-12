@@ -343,7 +343,7 @@ body {
 
 @media (min-width: 721px) {
   .popular-card {
-    margin-bottom: 139.96px;
+    margin-bottom: 79.96px; /* 원래 139.96px, 기본 하단 패딩 40px */
   }
 }
 
