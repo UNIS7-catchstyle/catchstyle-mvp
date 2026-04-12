@@ -191,7 +191,7 @@ body {
   margin-bottom: 124px;
   color: rgba(255, 255, 255, 0.88);
   font-size: 16px;
-  line-height: 40px;
+  line-height: 30px; /* 원래 값은 40px */
   font-weight: 500;
 }
 
