@@ -72,6 +72,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isThanksOpen, setIsThanksOpen] = useState(false);
+  const [showToast, setShowToast] = useState(false);
   const [backgroundImage, setBackgroundImage] = useState('');
   const [isMobileView, setIsMobileView] = useState(false);
   const heroSectionRef = useRef(null);
@@ -79,6 +80,7 @@ function App() {
   const touchStartYRef = useRef(null);
   const isAutoScrollingRef = useRef(false);
   const autoScrollUnlockTimerRef = useRef(null);
+  const toastTimerRef = useRef(null);
 
   const lockAutoScroll = useCallback(() => {
     isAutoScrollingRef.current = true;
@@ -278,6 +280,15 @@ function App() {
     };
   }, [navigateSectionByDirection]);
 
+  useEffect(
+    () => () => {
+      if (toastTimerRef.current) {
+        window.clearTimeout(toastTimerRef.current);
+      }
+    },
+    [],
+  );
+
   const handleSubmitData = async (event) => {
     event?.preventDefault();
     const keyword = inputValue.trim();
@@ -350,8 +361,34 @@ function App() {
     }
   };
 
+  const handleCopyLink = async () => {
+    try {
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(window.location.href);
+      }
+    } catch (error) {
+      console.warn('링크 복사 실패:', error);
+    }
+
+    setIsThanksOpen(false);
+    setShowToast(true);
+
+    if (toastTimerRef.current) {
+      window.clearTimeout(toastTimerRef.current);
+    }
+
+    toastTimerRef.current = window.setTimeout(() => {
+      setShowToast(false);
+    }, 2000);
+  };
+
   return (
     <div className="app-root">
+      {showToast && (
+        <div className="Toast" role="status" aria-live="polite">
+          링크가 복사되었습니다.
+        </div>
+      )}
       {isMobileView && backgroundImage && (
         <div className="mobile-background-layer" aria-hidden="true">
           <img className="mobile-background-image" src={backgroundImage} alt="" />
@@ -481,7 +518,7 @@ function App() {
               <button className="thanks-button outline" onClick={() => setIsThanksOpen(false)}>
                 확인
               </button>
-              <button className="thanks-button solid" onClick={() => navigator.clipboard?.writeText(window.location.href)}>
+              <button className="thanks-button solid" onClick={handleCopyLink}>
                 링크 복사
               </button>
             </div>
