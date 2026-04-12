@@ -137,10 +137,16 @@ body {
   display: block;
   margin-inline: auto;
   position: fixed;
-  top: 44px;
+  top: 30px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 30;
+}
+
+@media (max-width: 720px) {
+  .brand {
+    top: 44px;
+  }
 }
 
 @media (max-width: 970px) {
