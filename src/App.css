@@ -738,6 +738,7 @@ body {
   border-radius: 9999px;
   padding: 14px 82px;
   cursor: pointer;
+  height: 50px;
 }
 
 .thanks-title {
