@@ -2,6 +2,9 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import './App.css';
 import imgHeroDownIndicator from './logos/stat_minus_3.svg';
 import imgCatchstyle from './logos/Catchstyle.svg';
+import ReactGA from 'react-ga4';
+
+ReactGA.initialize('G-XXXXXXXXXX'); // 나중에 ID 알게 되면 바꿔라!
 
 const popularNames = ['-', '-', '-', '-', '-'];
 
@@ -61,6 +64,10 @@ const getSessionId = () => {
   return newId;
 };
 
+const sendGaEvent = (action, params = {}) => {
+  ReactGA.event(action, params);
+};
+
 function App() {
   const [inputValue, setInputValue] = useState('');
   const [lastSubmittedQuery, setLastSubmittedQuery] = useState('');
@@ -81,6 +88,13 @@ function App() {
   const isAutoScrollingRef = useRef(false);
   const autoScrollUnlockTimerRef = useRef(null);
   const toastTimerRef = useRef(null);
+
+  useEffect(() => {
+    ReactGA.send({
+      hitType: 'pageview',
+      page: `${window.location.pathname}${window.location.search}`,
+    });
+  }, []);
 
   const lockAutoScroll = useCallback(() => {
     isAutoScrollingRef.current = true;
@@ -291,6 +305,11 @@ function App() {
 
   const handleSubmitData = async (event) => {
     event?.preventDefault();
+    sendGaEvent('start_click', {
+      category: 'engagement',
+      label: 'search_submit',
+    });
+
     const keyword = inputValue.trim();
     setErrorMessage('');
     setStatusMessage('');
@@ -331,6 +350,11 @@ function App() {
   };
 
   const handleNotify = async () => {
+    sendGaEvent('result_check_click', {
+      category: 'engagement',
+      label: 'notify_submit',
+    });
+
     setErrorMessage('');
 
     if (!phone.trim()) {
@@ -362,6 +386,11 @@ function App() {
   };
 
   const handleCopyLink = async () => {
+    sendGaEvent('share_link_click', {
+      category: 'engagement',
+      label: 'thanks_modal',
+    });
+
     try {
       if (navigator.clipboard?.writeText) {
         await navigator.clipboard.writeText(window.location.href);
