@@ -439,6 +439,13 @@ body {
   transform: rotate(180deg);
 }
 
+.trend-neutral-mark {
+  color: #8f97a5;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1;
+}
+
 @media (max-width: 720px) {
   .hero-section {
     width: min(375px, 100%);
