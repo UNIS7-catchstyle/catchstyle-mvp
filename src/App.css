@@ -427,10 +427,14 @@ body {
 .trend svg {
   width: 24px;
   height: 24px;
+  color: #8f97a5;
+}
+
+.trend-up svg {
   color: #ff6a74;
 }
 
-.popular-list li:nth-child(even) .trend svg {
+.trend-down svg {
   color: #7bb3ff;
   transform: rotate(180deg);
 }

@@ -68,6 +68,45 @@ const sendGaEvent = (action, params = {}) => {
   ReactGA.event(action, params);
 };
 
+const toNumberOrNull = (value) => {
+  const number = Number(value);
+  return Number.isFinite(number) ? number : null;
+};
+
+const getTrendDirection = (item) => {
+  const normalizedTrend = String(item?.trend || item?.direction || '').toLowerCase();
+  if (normalizedTrend === 'up' || normalizedTrend === 'rise' || normalizedTrend === 'increase') {
+    return 'up';
+  }
+  if (normalizedTrend === 'down' || normalizedTrend === 'fall' || normalizedTrend === 'decrease') {
+    return 'down';
+  }
+
+  const currentRank = toNumberOrNull(item?.rank);
+  const previousRank = toNumberOrNull(item?.previousRank ?? item?.prevRank ?? item?.lastRank ?? item?.beforeRank);
+
+  if (currentRank !== null && previousRank !== null) {
+    if (currentRank < previousRank) {
+      return 'up';
+    }
+    if (currentRank > previousRank) {
+      return 'down';
+    }
+  }
+
+  const rankChange = toNumberOrNull(item?.rankChange ?? item?.changeValue ?? item?.delta);
+  if (rankChange !== null) {
+    if (rankChange > 0) {
+      return 'up';
+    }
+    if (rankChange < 0) {
+      return 'down';
+    }
+  }
+
+  return 'neutral';
+};
+
 function App() {
   const [inputValue, setInputValue] = useState('');
   const [lastSubmittedQuery, setLastSubmittedQuery] = useState('');
@@ -483,17 +522,21 @@ function App() {
             <span>실시간 집계 기준</span>
           </div>
           <ol className="popular-list">
-            {(rankings.length > 0 ? rankings : popularNames.map((name, index) => ({ rank: index + 1, keyword: name }))).map((item, index) => (
-              <li key={index}>
-                <span className="rank">{item.rank}</span>
-                <span className="name">{item.keyword}</span>
-                <span className="trend" aria-label="up">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 8L6 14H18L12 8Z" fill="currentColor" />
-                  </svg>
-                </span>
-              </li>
-            ))}
+            {(rankings.length > 0 ? rankings : popularNames.map((name, index) => ({ rank: index + 1, keyword: name }))).map((item, index) => {
+              const trendDirection = getTrendDirection(item);
+
+              return (
+                <li key={index}>
+                  <span className="rank">{item.rank}</span>
+                  <span className="name">{item.keyword}</span>
+                  <span className={`trend trend-${trendDirection}`} aria-label={trendDirection}>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M12 8L6 14H18L12 8Z" fill="currentColor" />
+                    </svg>
+                  </span>
+                </li>
+              );
+            })}
           </ol>
         </article>
       </section>
