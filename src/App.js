@@ -4,7 +4,7 @@ import imgHeroDownIndicator from './logos/stat_minus_3.svg';
 import imgCatchstyle from './logos/Catchstyle.svg';
 import ReactGA from 'react-ga4';
 
-ReactGA.initialize('G-XXXXXXXXXX'); // 나중에 ID 알게 되면 바꿔라!
+ReactGA.initialize('G-6LP1VYD123'); // 나중에 ID 알게 되면 바꿔라!
 
 const popularNames = ['-', '-', '-', '-', '-'];
 
