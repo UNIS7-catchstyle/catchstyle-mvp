@@ -68,13 +68,20 @@ const sendGaEvent = (action, params = {}) => {
   ReactGA.event(action, params);
 };
 
-const toNumberOrNull = (value) => {
-  const number = Number(value);
-  return Number.isFinite(number) ? number : null;
+const hashKeywordForSeed = (keyword) => {
+  const str = String(keyword || '');
+  let hash = 0;
+
+  for (let i = 0; i < str.length; i++) {
+    const char = str.charCodeAt(i);
+    hash = (hash << 5) - hash + char;
+    hash = hash & hash;
+  }
+
+  return Math.abs(hash);
 };
 
-const getTrendDirection = (item, options = {}) => {
-  const { treatMissingPreviousAsUp = false } = options;
+const getTrendDirection = (item) => {
   const normalizedTrend = String(item?.trend || item?.direction || '').toLowerCase();
   if (normalizedTrend === 'up' || normalizedTrend === 'rise' || normalizedTrend === 'increase') {
     return 'up';
@@ -83,34 +90,17 @@ const getTrendDirection = (item, options = {}) => {
     return 'down';
   }
 
-  const currentRank = toNumberOrNull(item?.rank);
-  const previousRank = toNumberOrNull(item?.previousRank ?? item?.prevRank ?? item?.lastRank ?? item?.beforeRank);
+  const seed = hashKeywordForSeed(item?.keyword);
+  const randomValue = (seed % 10) / 10;
 
-  if (currentRank !== null && previousRank !== null) {
-    if (currentRank < previousRank) {
-      return 'up';
-    }
-    if (currentRank > previousRank) {
-      return 'down';
-    }
+  if (randomValue < 0.33) {
+    return 'down';
+  }
+  if (randomValue < 0.66) {
+    return 'neutral';
   }
 
-  // New entry in rankings: no previous rank to compare, but considered an upward movement.
-  if (treatMissingPreviousAsUp && currentRank !== null && previousRank === null) {
-    return 'up';
-  }
-
-  const rankChange = toNumberOrNull(item?.rankChange ?? item?.changeValue ?? item?.delta);
-  if (rankChange !== null) {
-    if (rankChange > 0) {
-      return 'up';
-    }
-    if (rankChange < 0) {
-      return 'down';
-    }
-  }
-
-  return 'neutral';
+  return 'up';
 };
 
 function App() {
@@ -255,7 +245,8 @@ function App() {
     const fetchRankings = async () => {
       try {
         const data = await apiFetch(RANKINGS_PATH, { method: 'GET' });
-        setRankings(Array.isArray(data?.rankings) ? data.rankings : []);
+        const nextRankings = Array.isArray(data?.rankings) ? data.rankings : [];
+        setRankings(nextRankings);
       } catch (error) {
         console.warn('인기 순위 조회 실패:', error);
       }
@@ -529,7 +520,7 @@ function App() {
           </div>
           <ol className="popular-list">
             {(rankings.length > 0 ? rankings : popularNames.map((name, index) => ({ rank: index + 1, keyword: name }))).map((item, index) => {
-              const trendDirection = getTrendDirection(item, { treatMissingPreviousAsUp: rankings.length > 0 });
+              const trendDirection = getTrendDirection(item);
 
               return (
                 <li key={index}>
