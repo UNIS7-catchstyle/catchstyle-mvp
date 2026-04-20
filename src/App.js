@@ -73,7 +73,8 @@ const toNumberOrNull = (value) => {
   return Number.isFinite(number) ? number : null;
 };
 
-const getTrendDirection = (item) => {
+const getTrendDirection = (item, options = {}) => {
+  const { treatMissingPreviousAsUp = false } = options;
   const normalizedTrend = String(item?.trend || item?.direction || '').toLowerCase();
   if (normalizedTrend === 'up' || normalizedTrend === 'rise' || normalizedTrend === 'increase') {
     return 'up';
@@ -92,6 +93,11 @@ const getTrendDirection = (item) => {
     if (currentRank > previousRank) {
       return 'down';
     }
+  }
+
+  // New entry in rankings: no previous rank to compare, but considered an upward movement.
+  if (treatMissingPreviousAsUp && currentRank !== null && previousRank === null) {
+    return 'up';
   }
 
   const rankChange = toNumberOrNull(item?.rankChange ?? item?.changeValue ?? item?.delta);
@@ -523,7 +529,7 @@ function App() {
           </div>
           <ol className="popular-list">
             {(rankings.length > 0 ? rankings : popularNames.map((name, index) => ({ rank: index + 1, keyword: name }))).map((item, index) => {
-              const trendDirection = getTrendDirection(item);
+              const trendDirection = getTrendDirection(item, { treatMissingPreviousAsUp: rankings.length > 0 });
 
               return (
                 <li key={index}>
