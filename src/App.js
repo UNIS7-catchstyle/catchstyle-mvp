@@ -83,15 +83,21 @@ const hashKeywordForSeed = (keyword) => {
 
 const getTrendDirection = (item) => {
   const normalizedTrend = String(item?.trend || item?.direction || '').toLowerCase();
+  const isTopRank = Number(item?.rank) === 1;
+
   if (normalizedTrend === 'up' || normalizedTrend === 'rise' || normalizedTrend === 'increase') {
     return 'up';
   }
   if (normalizedTrend === 'down' || normalizedTrend === 'fall' || normalizedTrend === 'decrease') {
-    return 'down';
+    return isTopRank ? 'neutral' : 'down';
   }
 
   const seed = hashKeywordForSeed(item?.keyword);
   const randomValue = (seed % 10) / 10;
+
+  if (isTopRank) {
+    return randomValue < 0.5 ? 'neutral' : 'up';
+  }
 
   if (randomValue < 0.33) {
     return 'down';
